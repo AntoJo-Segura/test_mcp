@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Sorpresa de Cumpleaños</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>¡Organiza una Sorpresa de Cumpleaños!</h1>
+    <p>Usa esta página para coordinar una fiesta de cumpleaños sorpresa. Ingresa tus datos para participar.</p>
+
+    <form action="/submit" method="post">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <input type="checkbox" id="voluntario" name="voluntario">
+            <label for="voluntario">Soy voluntario organizador</label>
+        </div>
+        <div>
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+</body>
+</html>
