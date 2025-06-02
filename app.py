@@ -30,7 +30,7 @@ def submit():
         with open(CSV_FILE, mode='a', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow([nombre, email, voluntario])
-
+        
         # For now, let's redirect to a simple success page or back to the form
         # We will create a proper success message/page in a later step
         return render_template('success.html')

@@ -8,22 +8,24 @@ WORKDIR /app_llm
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
+# This is where 'pip install mcp' will be attempted during Docker build.
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application file into the container at /app_llm
 COPY app_llm.py .
+
 # Note: This Dockerfile assumes leads.csv will be made available via a volume mount
-# or other means at /app_llm/../leads.csv (i.e. /leads.csv at the root of the shared volume)
-# when the container is run.
+# at /csv_data/leads.csv when the container is run, as app_llm.py expects it there.
 
-# Make port 5001 available to the world outside this container
-EXPOSE 5001
+# EXPOSE 5001
+# Port exposure is not strictly necessary if using stdio transport primarily.
+# If an MCP HTTP transport is used in the future, this should be uncommented/adjusted.
 
-# Define environment variable for Flask
-ENV FLASK_APP=app_llm.py
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5001
-# The app_llm.py itself sets host and port, but setting ENV is good practice.
+# Define environment variable for any MCP specific configurations if needed in future
+# ENV FLASK_APP=app_llm.py # No longer Flask
+# ENV FLASK_RUN_HOST=0.0.0.0
+# ENV FLASK_RUN_PORT=5001
 
-# Run app_llm.py when the container launches
+# Run app_llm.py when the container launches.
+# This will start the MCP server listening on stdio.
 CMD ["python", "app_llm.py"]
