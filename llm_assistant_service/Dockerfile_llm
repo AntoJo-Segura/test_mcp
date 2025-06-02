@@ -1,0 +1,29 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app_llm
+
+# Copy the requirements file into the container at /app_llm
+COPY requirements.txt .
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application file into the container at /app_llm
+COPY app_llm.py .
+# Note: This Dockerfile assumes leads.csv will be made available via a volume mount
+# or other means at /app_llm/../leads.csv (i.e. /leads.csv at the root of the shared volume)
+# when the container is run.
+
+# Make port 5001 available to the world outside this container
+EXPOSE 5001
+
+# Define environment variable for Flask
+ENV FLASK_APP=app_llm.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=5001
+# The app_llm.py itself sets host and port, but setting ENV is good practice.
+
+# Run app_llm.py when the container launches
+CMD ["python", "app_llm.py"]
